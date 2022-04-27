@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C Server", "C Server\C Server.csproj", "{6F99C822-081D-4854-AE0B-49A1B0AD92C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "C Server", "C Server\C Server.csproj", "{6F99C822-081D-4854-AE0B-49A1B0AD92C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C Client", "C Client\C Client.csproj", "{B5997E7E-1EF5-4C58-AF7B-9649CFF87B2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "C Client", "C Client\C Client.csproj", "{B5997E7E-1EF5-4C58-AF7B-9649CFF87B2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

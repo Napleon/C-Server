@@ -12,41 +12,48 @@ class Chat_Server
     {
         TcpListener server = null;
         Byte[] bytes = new Byte[256];
+        bool Server_Connect = false;
+        bool Trigger = false;
         String data = null;
-        LinkedList<string> Server_list = new LinkedList<string>();
-        bool Server_con = false;
-        bool trigger = false;
+        LinkedList<String> Server_list = new LinkedList<string>();
+
         try
         {
+
             Int32 port = 9000;
             IPAddress localAddr = IPAddress.Parse("127.0.0.1");
 
-
-
             server = new TcpListener(localAddr, port);
-            Server_list.AddLast("Waiting for a connection... ");
-            server.Start();
 
+            Server_list.AddLast("Waiting for a connection... ");
+
+            server.Start();
             Server_list.AddLast("'수' 님이 127.0.0.1에서 접속하셨습니다.");
-            Server_con = true;
+            Server_Connect = true;
 
             foreach (var chat in Server_list)
             {
                 Console.WriteLine(chat);
             }
+
             TcpClient client = server.AcceptTcpClient();
             NetworkStream stream = client.GetStream();
+
+
             while (true)
             {
-                if (Server_con == true)
+
+                if (Server_Connect == true)
                 {
-                    Thread sv_write = new Thread(() => Server_write(Server_list, data, stream, client, trigger, bytes));
+                    Thread sv_write = new Thread(() =>
+                    Server_Write(Server_list, data, stream, client, Trigger, bytes));
                     sv_write.Start();
 
-
-                    Thread sv_read = new Thread(() => Server_read(Server_list, data, stream, bytes, trigger));
+                    Thread sv_read = new Thread(() =>
+                    Server_Read(Server_list, data, stream, bytes, Trigger));
                     sv_read.Start();
                 }
+
             }
         }
         catch (SocketException e)
@@ -61,63 +68,68 @@ class Chat_Server
         Console.WriteLine("\nHit enter to continue...");
         Console.Read();
     }
-    public static void Server_write(LinkedList<string> sv_list, string data, NetworkStream stream, TcpClient client, bool trigger, Byte[] byts)
-    {
-        
 
+    public static void Server_Write(LinkedList<string> Sv_list, String data,
+        NetworkStream stream, TcpClient client, bool Trigger, Byte[] bytes)
+    {
+        while (true)
+        {
             if (Console.ReadKey().Key == ConsoleKey.D1)
             {
-
                 Console.SetCursorPosition(0, 15);
                 Console.WriteLine("메세지를 입력해주세요.");
 
-                String input = Console.ReadLine();
-                if (input == "/q")
+                String Input = Console.ReadLine();
+                if (Input == "/q")
                 {
-                    client.Close();
                     stream.Close();
+                    client.Close();
                     Environment.Exit(0);
                 }
 
-
-                byts = new byte[256];
-                data = input;
-                byts = System.Text.Encoding.Default.GetBytes(data);
-                stream.Write(byts, 0, byts.Length);
-                if (sv_list.Count < 10)
+                bytes = new Byte[256];
+                data = Input;
+                bytes = System.Text.Encoding.Default.GetBytes(data);
+                stream.Write(bytes, 0, bytes.Length);
+                if (Sv_list.Count < 10)
                 {
-                    sv_list.AddLast($"[주]: {data}");
+                    Sv_list.AddLast($"[주]: {data}");
                     Console.Clear();
-                    foreach (var chat in sv_list)
+                    foreach (var chat in Sv_list)
                     {
                         Console.WriteLine(chat);
                     }
-                    trigger = true;
+                    Trigger = true;
                 }
             }
-            /*else
+            else
             {
                 Console.Clear();
-            }*/          
+            }
+        }
     }
 
-    public static void Server_read(LinkedList<string> sv_list, string data, NetworkStream stream, Byte[] byts, bool trigger)
+    public static void Server_Read(LinkedList<string> Sv_list, String data,
+        NetworkStream stream, Byte[] bytes, bool Trigger)
     {
-       
-            byts = new byte[256];
+        while (Trigger == true)
+        {
+
+            bytes = new Byte[256];
             data = null;
-            Int32 byt = stream.Read(byts, 0, byts.Length);
-            data = System.Text.Encoding.Default.GetString(byts, 0, byt);
-            if (sv_list.Count < 10)
+            Int32 byt = stream.Read(bytes, 0, bytes.Length);
+            data = System.Text.Encoding.Default.GetString(bytes, 0, byt);
+            if (Sv_list.Count < 10)
             {
-                sv_list.AddLast($"[수]: {data}");
+                Sv_list.AddLast($"[수]: {data}");
                 Console.Clear();
-                foreach (var chat in sv_list)
+                foreach (var chat in Sv_list)
                 {
                     Console.WriteLine(chat);
                 }
-                trigger = false;
+                Trigger = false;
             }
-    }
 
+        }
+    }
 }
