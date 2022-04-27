@@ -65,7 +65,7 @@ class Chat_Server
     {
         
 
-            if (Console.ReadKey().Key == ConsoleKey.D1)
+            if (Console.ReadKey().Key == ConsoleKey.T)
             {
 
                 Console.SetCursorPosition(0, 15);

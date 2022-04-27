@@ -22,8 +22,8 @@ public class Chat_Client
             {
                 String inputtcp = Console.ReadLine();            
                 Console.Clear();
-                //if(inputtcp == $"/c {server}:{port}")
-                if (inputtcp == $"/c")
+                
+                if(inputtcp == $"/c {server}:{port}")
                 {
                     Client_list.AddLast("127.0.0.1:9000에 접속시도중...");
                     Client_con = true;
@@ -68,7 +68,7 @@ public class Chat_Client
     public static void Client_write(LinkedList<string> cl_list,Byte[] data,NetworkStream stream,TcpClient client, bool trigger)
     {
        
-            if (Console.ReadKey().Key == ConsoleKey.D1)
+            if (Console.ReadKey().Key == ConsoleKey.T)
             {
                 Console.SetCursorPosition(0, 15);
                 Console.WriteLine("메세지를 입력해주세요.");
